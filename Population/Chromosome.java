@@ -22,6 +22,11 @@ public abstract class Chromosome implements Comparable<Chromosome>{
 	public double getFitness(){
 		return this.fitness;
 	}
+
+	//Devuelve el número de genes (variables) que tiene el cromosoma en cuestion.
+	public int getNumGens(){
+		return this.genotype.length;
+	}
 	
 	//Devuelve el gen asociado a la posición i.
 	//DEVOLVEMOS UNA COPIA EFECTIVA!!!
