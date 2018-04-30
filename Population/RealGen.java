@@ -28,7 +28,12 @@ public class RealGen implements Gen {
 	public double getPhenotype() {
 		return this.phenotype;
 	}
+	
+	public void setPhenotype(double phe) {
+		this.phenotype = phe;
+	}
 
+	@Override
 	public String toString() {
 		return Double.toString(this.phenotype);
 	}
