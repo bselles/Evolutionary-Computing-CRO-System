@@ -9,4 +9,6 @@ public interface Gen {
 	public abstract double getPhenotype();
 	public abstract String toString();	
 	public abstract Gen getCopy();
+	public abstract double getXmin();
+	public abstract double getXmax();
 }

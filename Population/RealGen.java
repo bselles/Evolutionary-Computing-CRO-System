@@ -21,6 +21,14 @@ public class RealGen implements Gen {
 		//ASOCIARLE UN VALOR A PHENOTYPE.
 	}
 	
+	public double getXmin() {
+		return xmin;
+	}
+
+	public double getXmax() {
+		return xmax;
+	}
+
 	/**************************************************************************
 	 * MÉTODOS PÚBLICOS
 	 **************************************************************************/
