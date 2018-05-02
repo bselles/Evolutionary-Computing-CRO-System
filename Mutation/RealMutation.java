@@ -38,12 +38,12 @@ public class RealMutation {
 				genAux = (RealGen) a.getGen(i).getCopy();
 				if(rand == 1){
 					 res = calculazacum(x) + genAux.getPhenotype();
-					 if(res > a.getGen(i).getXmax())genAux.setPhenotype(512);
+					 if(res > a.getGen(i).getXmax())genAux.setPhenotype(a.getGen(i).getXmax());
 					 else genAux.setPhenotype(res);
 				}
 				else{
 					 res = calculazacum(x) - genAux.getPhenotype();
-					 if(res < a.getGen(i).getXmin())genAux.setPhenotype(-512);
+					 if(res < a.getGen(i).getXmin())genAux.setPhenotype(a.getGen(i).getXmin());
 					 else genAux.setPhenotype(res);
 				}
 
