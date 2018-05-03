@@ -16,6 +16,7 @@ public class Controller {
 	private int generations;		//Número de generaciones a evaluar.
 	
 	private double occupationRatio;	//Ratio inicial de celdas ocupadas.
+	private double broodingRatio;
 	private int survivingAttempts;	//Número de intentos que tiene cada larva para ubicarse en la población en la fase 3.
 	private double arRatio;			//Porcentaje de soluciones que se intentarán reproducir asexualmente (fase 4).
 	
@@ -37,9 +38,9 @@ public class Controller {
 		//Bucle principal.
 		for(int i=0; i<generations;i++){
 			//Fase 1a: recogemos parte de la población para usarlo en la fase 2.
-			fraction=cro.pickPopulationFraction(population);
+			fraction=cro.pickPopulationFraction(population,broodingRatio);
 			//Fase 1b: Cruces e introducción del resultado en el agua.
-			water=cro.externalSexualReproduction(population);
+			water=cro.externalSexualReproduction();
 			//Fase 2: "mutación" (Reproducción sexual interna).
 			water.addAll(cro.internalSexualReproduction(fraction));
 			//Fase 3:

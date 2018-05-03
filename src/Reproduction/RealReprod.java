@@ -3,6 +3,7 @@ package Reproduction;
 import java.util.ArrayList;
 
 import Population.Chromosome;
+import Population.ChromosomeP1;
 import Population.RealGen;
 
 public class RealReprod {
@@ -51,10 +52,22 @@ public class RealReprod {
 				
 				genAux = (RealGen) a.getGen(i).getCopy();
 				genAux.setPhenotype( valorA * alfa + valorB * (1-alfa) );
+				
+				if(genAux.getPhenotype() > genAux.getXmax())
+					genAux.setPhenotype(genAux.getXmax());
+				else if (genAux.getPhenotype() < genAux.getXmin())
+					genAux.setPhenotype(genAux.getXmin());
+				
 				hijoA.setGen(i, genAux);
 				
 				genAux = (RealGen) b.getGen(i).getCopy();
 				genAux.setPhenotype( valorB * alfa + valorA * (1-alfa) );
+				
+				if(genAux.getPhenotype() > genAux.getXmax())
+					genAux.setPhenotype(genAux.getXmax());
+				else if (genAux.getPhenotype() < genAux.getXmin())
+					genAux.setPhenotype(genAux.getXmin());
+				
 				hijoB.setGen(i, genAux);
 
 			}
@@ -72,10 +85,22 @@ public class RealReprod {
 				
 				genAux = (RealGen) a.getGen(i).getCopy();
 				genAux.setPhenotype( 0.5 * (valorA + valorB - beta * Math.abs(valorB - valorA)) );
+				
+				if(genAux.getPhenotype() > genAux.getXmax())
+					genAux.setPhenotype(genAux.getXmax());
+				else if (genAux.getPhenotype() < genAux.getXmin())
+					genAux.setPhenotype(genAux.getXmin());
+				
 				hijoA.setGen(i, genAux);
 				
 				genAux = (RealGen) b.getGen(i).getCopy();
 				genAux.setPhenotype( 0.5 * (valorA + valorB + beta * Math.abs(valorB - valorA)) );
+				
+				if(genAux.getPhenotype() > genAux.getXmax())
+					genAux.setPhenotype(genAux.getXmax());
+				else if (genAux.getPhenotype() < genAux.getXmin())
+					genAux.setPhenotype(genAux.getXmin());
+				
 				hijoB.setGen(i, genAux);
 			}
 			break;
@@ -87,5 +112,18 @@ public class RealReprod {
 		hijos.add(hijoA);
 		hijos.add(hijoB);
 		return hijos;
+	}
+	
+	
+	public static void main(String[] args){
+		Chromosome c1= new ChromosomeP1(0.01);
+		Chromosome c2= new ChromosomeP1(0.01);
+		System.out.println(c1.toString());
+		System.out.println(c2.toString());
+		ArrayList<Chromosome> result=RealReprod.reproduce(c1, c2, 1, 4);
+		c1=result.get(0);
+		c2=result.get(1);
+		System.out.println(c1.toString());
+		System.out.println(c2.toString());
 	}
 }
