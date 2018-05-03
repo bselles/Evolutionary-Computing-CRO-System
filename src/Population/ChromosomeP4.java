@@ -18,6 +18,7 @@ public class ChromosomeP4 extends Chromosome{
 		this.genotype[0]= new RealGen(-10, 10,TOL);
 		this.genotype[1]= new RealGen(-10, 10,TOL);
 		this.maximizacion= false;	//Problema de minimización.
+		this.fitness=calculateFitness();
 
 	}
 	
@@ -47,62 +48,5 @@ public class ChromosomeP4 extends Chromosome{
 		}
 		result.fitness=this.fitness;
 		return result;
-	}
-	
-	public Chromosome mutation(int tipo, double prob, double desviacion){
-		
-		RealGen genAux;
-		Chromosome a = this.getCopy();
-		
-		switch (tipo) {
-		case 1: //Mutacion uniforme
-			for (int i =0; i< this.getNumGens(); i++ ) {
-				if(Math.random() < prob){
-					
-					genAux = (RealGen) this.getGen(i).getCopy();
-					genAux.setPhenotype(  -10 + Math.random() * 20);
-					a.setGen(i, genAux);
-					
-				}
-			}
-				
-					
-			break;
-
-		case 2: //Mutacion no uniforme
-			double x = Math.random() * 3, res;		
-			int rand;
-			
-			
-			if(Math.random() > prob)  //no se cruzan
-				break;
-			for (int i =0; i< this.getNumGens(); i++ ) { //Cuidado dominio de la funcion
-			
-				rand = (int) Math.random();
-				
-				genAux = (RealGen) this.getGen(i).getCopy();
-				if(rand == 1){
-					 res = calculazacum(x) + genAux.getPhenotype();
-					 if(res > 10)genAux.setPhenotype(10);
-					 else genAux.setPhenotype(res);
-				}
-				else{
-					 res = calculazacum(x) - genAux.getPhenotype();
-					 if(res < -10)genAux.setPhenotype(-10);
-					 else genAux.setPhenotype(res);
-				}
-
-				a.setGen(i, genAux);	
-
-			}
-			
-			break;
-			
-		
-
-		}
-		
-		return a;
-
 	}
 }

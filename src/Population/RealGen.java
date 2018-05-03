@@ -1,6 +1,6 @@
 package Population;
 
-public class RealGen implements Gen {
+public class RealGen extends Gen {
 
 	/**************************************************************************
 	 * ATRIBUTOS
@@ -17,8 +17,7 @@ public class RealGen implements Gen {
 		this.xmax=xmax;
 		this.xmin=xmin;
 		this.TOL=TOL;
-		//AÑADIR ASPECTOS OPORTUNOS.
-		//ASOCIARLE UN VALOR A PHENOTYPE.
+		this.phenotype = getRandomDouble(xmin, xmax);
 	}
 	
 	public double getXmin() {
