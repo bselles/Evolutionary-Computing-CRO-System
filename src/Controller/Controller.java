@@ -16,12 +16,15 @@ public class Controller {
 	private int generations;		//Número de generaciones a evaluar.
 	
 	private double occupationRatio;	//Ratio inicial de celdas ocupadas.
-	private double broodingRatio;
+	private double broodingRatio;	//Ratio de elementos que harán reproducción sexual externa
 	private int survivingAttempts;	//Número de intentos que tiene cada larva para ubicarse en la población en la fase 3.
 	private double arRatio;			//Porcentaje de soluciones que se intentarán reproducir asexualmente (fase 4).
 	
 	private double depredationPercentage; 	//Porcentaje de población a la que se aplicará la fase 5 (depredation).
-	private double depredationProbability;	//Probabilidad de que, a cada individuo del porcentaje anterior, muera (depredation phase).
+	private double depredationProbability;	//Probabilidad de que cada individuo del porcentaje anterior muera (depredation phase).
+	
+	private double crossProbability;		//Probabilidad de que los individuos se crucen mediante reproducción sexual externa
+	private double mutationProbability;		//Probabilidad de que ocurra la reproducción sexual interna
 	
 	private int problem; 			//Problema a resolver. Los posibles valores son de 1 a 5.
 	private int n;					//En el caso de que resolvamos el problema 5, valor de n.
@@ -38,17 +41,17 @@ public class Controller {
 		//Bucle principal.
 		for(int i=0; i<generations;i++){
 			//Fase 1a: recogemos parte de la población para usarlo en la fase 2.
-			fraction=cro.pickPopulationFraction(population,broodingRatio);
+			fraction=cro.pickPopulationFraction(population, broodingRatio);
 			//Fase 1b: Cruces e introducción del resultado en el agua.
-			water=cro.externalSexualReproduction();
+			water=cro.externalSexualReproduction(fraction, crossProbability);
 			//Fase 2: "mutación" (Reproducción sexual interna).
-			water.addAll(cro.internalSexualReproduction(fraction));
+			water.addAll(cro.internalSexualReproduction(mutationProbability));
 			//Fase 3:
-			population=cro.putLarvaesIntoPopulation(survivingAttempts, population, water);
+			cro.putLarvaesIntoPopulation(population, water, survivingAttempts);
 			//Fase 4:
-			population=cro.asexualReproduction(arRatio, population);
+			cro.asexualReproduction( population, arRatio, survivingAttempts);
 			//Fase 5:
-			population=cro.depredate(depredationPercentage, depredationProbability, population);
+			cro.depredate(population, depredationPercentage, depredationProbability);
 		}
 	}
 	

@@ -8,13 +8,14 @@ import Population.ChromosomeP2;
 import Population.ChromosomeP3;
 import Population.ChromosomeP4;
 import Population.ChromosomeP5;
+import Reproduction.RealReprod;
 
 public class CROAlgorithm {
 	
-	int problem;
-	int n;
-	int mutationType;
-	int crossType;
+	private int problem;
+	private int n;
+	private int mutationType;
+	private int crossType;
 	
 	private ArrayList<Chromosome> internalSelecteds;
 	
@@ -53,11 +54,11 @@ public class CROAlgorithm {
 	Seleccionamos una fracción de la población total y la apartamos.
 	Esta fracción se usará en la fase 2 (Brooding)*/
 	public  ArrayList<Chromosome> pickPopulationFraction(ArrayList<Chromosome> population, double fraction){
-		ArrayList<Chromosome> result= new ArrayList<Chromosome>();
-		this.internalSelecteds=  new ArrayList<Chromosome>();
+		ArrayList<Chromosome> result = new ArrayList<Chromosome>();
+		this.internalSelecteds =  new ArrayList<Chromosome>();
 		
 		for(int i=0; i<population.size();i++){
-			if(population.get(i)!=null){
+			if(population.get(i) != null){
 				if(Math.random()>0.5){
 					result.add(population.get(i));
 				}else{
@@ -70,8 +71,8 @@ public class CROAlgorithm {
 		
 		int n= (int) (Math.floor(this.internalSelecteds.size()+result.size())*fraction);
 		
-		while(n!=result.size()){
-			if(n>result.size()){
+		while(n != result.size()){
+			if(n > result.size()){
 				result.add(this.internalSelecteds.remove(generateRandomInt(0,this.internalSelecteds.size())));
 			}else{
 				this.internalSelecteds.add(result.remove(generateRandomInt(0,result.size())));
@@ -85,12 +86,25 @@ public class CROAlgorithm {
 	/*
 	 * Representa la fase 1b. Se reproducen por parejas y lanzan sus hijos al mar.
 	 */
-	//public abstract ArrayList<Chromosome> externalSexualReproduction(ArrayList<Chromosome> population);
+	public  ArrayList<Chromosome> externalSexualReproduction(ArrayList<Chromosome> population, double crossProb){
+		ArrayList<Chromosome> resul = new ArrayList<>();
+		resul.ensureCapacity(population.size());
+		
+		for(int i = 0; i < population.size()-1; i++) 
+			resul.addAll(RealReprod.reproduce(population.get(i), population.get(i+1), crossProb, this.crossType));
+		
+		if(population.size()%2 == 1)
+			resul.add(population.get(population.size()-1));
+		
+		return resul;
+	}
 
 	/*
 	 * Representa la fase 2.
 	 */
-	//public abstract ArrayList<Chromosome> internalSexualReproduction(ArrayList<Chromosome> fraction);
+	public ArrayList<Chromosome> internalSexualReproduction(double mutationProbability){
+		return null;
+	}
 
 	
 	/*
@@ -98,19 +112,42 @@ public class CROAlgorithm {
 	 * Las larvas generadas en la fase 1 y 2, que están en el agua, luchan por situarse en el coral (population).
 	 * 
 	 */
-	//public abstract ArrayList<Chromosome> putLarvaesIntoPopulation(int survivingAttempts,ArrayList<Chromosome> population, ArrayList<Chromosome> water);
+	public void putLarvaesIntoPopulation(ArrayList<Chromosome> population, ArrayList<Chromosome> water, int survivingAttempts){
+
+	}
 
 	/*
 	 * Representa la fase 4. 
 	 * Reproducción asexual.
 	 */
-	//public abstract ArrayList<Chromosome> asexualReproduction(double ratio,ArrayList<Chromosome> population);
+	public void asexualReproduction(ArrayList<Chromosome> population, double ratio, int survivingAttempts){
+		int clones = (int) (population.size() * ratio), pos;
+		
+		for(int i = 0; i < clones; i++) {
+			do { pos = generateRandomInt(0, population.size());
+			} while( population.get(pos) == null );
+			
+			Chromosome aux = population.get(pos).getCopy();
+			
+			for(int j=0; j<survivingAttempts; j++) {
+				pos = generateRandomInt(0, population.size());
+				if(population.get(pos) == null || population.get(pos).getFitness() < aux.getFitness()) {
+					population.set(pos, aux);
+					break;
+				}
+			}
+			
+		}
+		
+	}
 
 	/*
 	 * Representa la fase 5.
 	 * Se eliminan ciertos individuos de la población (depredation).
 	 */
-	//public abstract ArrayList<Chromosome> depredate(double ratio, double probability, ArrayList<Chromosome> population);
+	public void depredate(ArrayList<Chromosome> population, double ratio, double probability){
+		
+	}
 
 
 	private int generateRandomInt(int min, int max){
@@ -139,10 +176,11 @@ public class CROAlgorithm {
 		
 		CROAlgorithm al= new CROAlgorithm(1,1,1,1);
 		
-		int n=3;
-		int m=3;
+		int n=5;
+		int m=5;
 		
 		ArrayList<Chromosome> result=al.generatePopulation(n, m, 0.5);
+		
 		int j=0; 
 		for(int i=0; i<n*m; i++){
 			if(result.get(i)==null){
@@ -151,7 +189,25 @@ public class CROAlgorithm {
 				System.out.print(" X ");
 			}
 			j++;
-			if(j==3){
+			if(j==m){
+				j=0;
+				System.out.println("");
+			}
+		}
+		
+		al.asexualReproduction(result, 0.2, 2);
+		
+		System.out.println("");
+		
+		j=0; 
+		for(int i=0; i<n*m; i++){
+			if(result.get(i)==null){
+				System.out.print(" - ");
+			}else{
+				System.out.print(" X ");
+			}
+			j++;
+			if(j==m){
 				j=0;
 				System.out.println("");
 			}
