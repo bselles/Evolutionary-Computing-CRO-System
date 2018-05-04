@@ -27,7 +27,7 @@ public class RealMutation {
 		case 2: //Mutacion no uniforme
 			double x = Math.random() * 3,res;
 
-			if(Math.random() > prob)  //no se cruzan
+			if(Math.random() > prob)  //no se muta
 				break;
 			for (int i =0; i< result.getNumGens(); i++ ) { //Cuidado dominio de la funcion
 				
@@ -40,7 +40,7 @@ public class RealMutation {
 					 else genAux.setPhenotype(res);
 				}
 				else{
-					 res = calculazacum(x) - genAux.getPhenotype();
+					 res = genAux.getPhenotype() - calculazacum(x) ;
 					 if(res < result.getGen(i).getXmin())genAux.setPhenotype(result.getGen(i).getXmin());
 					 else genAux.setPhenotype(res);
 				}
@@ -69,11 +69,12 @@ public class RealMutation {
 	}
 
 	public static void main(String[] args){
-		Chromosome c= new ChromosomeP1(0.01);
-		System.out.println(c.toString());
-		c=RealMutation.mutate(c, 1, 1, 0);
-		System.out.println(c.toString());
-
+		for(int i=0; i<10; i++){
+			Chromosome c= new ChromosomeP1(0.01);
+			System.out.println(c.toString());
+			c=RealMutation.mutate(c, 2, 1, 0);
+			System.out.println(c.toString());
+		}
 	}
 	
 }
