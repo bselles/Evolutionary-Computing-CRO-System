@@ -23,8 +23,8 @@ public class Controller {
 	private double depredationPercentage; 	//Porcentaje de población a la que se aplicará la fase 5 (depredation).
 	private double depredationProbability;	//Probabilidad de que cada individuo del porcentaje anterior muera (depredation phase).
 	
-	private double crossProbability;		//Probabilidad de que los individuos se crucen mediante reproducción sexual externa
-	private double mutationProbability;		//Probabilidad de que ocurra la reproducción sexual interna
+	private double crossProbability=1;		//Probabilidad de que los individuos se crucen mediante reproducción sexual externa
+	private double mutationProbability=1;		//Probabilidad de que ocurra la reproducción sexual interna
 	
 	private int mutationType;
 	private int crossType;
@@ -35,8 +35,8 @@ public class Controller {
 	public void realizarCalculos(){
 		
 		//Suponemos que tenemos estos parametros en la interfaz.
-		this.N=80;
-		this.M=80;
+		this.N=10;
+		this.M=10;
 		this.generations=200;
 		this.occupationRatio=0.3;
 		this.broodingRatio=0.3;
@@ -49,7 +49,7 @@ public class Controller {
 		this.mutationType=1;
 		this.crossType=3;
 		
-		this.problem=5;
+		this.problem=3;
 		this.n=3;
 		
 		
@@ -66,6 +66,10 @@ public class Controller {
 		
 		//Bucle principal.
 		for(int i=0; i<generations;i++){
+			
+			cro.printPopulation(N,M,population);
+			System.out.println("---------------------------------");
+			
 			
 			//Fase 1a: recogemos parte de la población para usarlo en la fase 2.
 			fraction=cro.pickPopulationFraction(population, broodingRatio);
@@ -93,7 +97,6 @@ public class Controller {
 		
 		
 		System.out.print(winner.toString());
-		
 	}
 	
 	public static void main(String[] args){

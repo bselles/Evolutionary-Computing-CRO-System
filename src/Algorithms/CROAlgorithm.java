@@ -28,6 +28,23 @@ public class CROAlgorithm {
 		this.crossType=crossType;
 	}
 	
+	public void printPopulation(int n, int m, ArrayList<Chromosome> population){
+		int j=0;
+		for(int i=0; i<n*m; i++){
+			if(population.get(i)==null){
+				System.out.print(" - ");
+			}else{
+				System.out.print(" X ");
+			}
+			j++;
+			if(j==m){
+				j=0;
+				System.out.println("");
+			}
+		}
+	}
+	
+	
 	public  ArrayList<Chromosome> generatePopulation(int N, int M, double occupationRatio){
 		//Su tamaño será NxM.
 		ArrayList<Chromosome> result= new ArrayList<Chromosome>();
@@ -110,7 +127,7 @@ public class CROAlgorithm {
 	public ArrayList<Chromosome> internalSexualReproduction(double mutationProbability){
 
 		ArrayList<Chromosome> resul = new ArrayList<>();
-		resul.ensureCapacity(internalSelecteds.size());
+		//resul.ensureCapacity(internalSelecteds.size());
 		for(int i = 0; i < internalSelecteds.size()-1; i++) resul.add(RealMutation.mutate(internalSelecteds.get(i), this.mutationType, mutationProbability, 1));
 		
 		return resul;
