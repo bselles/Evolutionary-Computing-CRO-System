@@ -7,12 +7,12 @@ public class ChromosomeP5 extends Chromosome{
 	 **************************************************************************/
 	public ChromosomeP5(){}
 	
-	public ChromosomeP5(double TOL, int n){
+	public ChromosomeP5( int n){
 		super();
 		this.genotype=new RealGen[n];
 		//Crearemos tantos genes como variables tenga el problema.
 		for (int i=0; i<n; i++){
-			this.genotype[i]= new RealGen(0, Math.PI,TOL);
+			this.genotype[i]= new RealGen(0, Math.PI);
 		}
 		this.maximizacion=false; //Problema de minimización.
 		this.fitness=calculateFitness();

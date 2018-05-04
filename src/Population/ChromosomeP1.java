@@ -9,12 +9,10 @@ public class ChromosomeP1 extends Chromosome {
 	/**************************************************************************
 	 * CONSTRUCTORES
 	 **************************************************************************/
-	public ChromosomeP1(){}
-	
-	public ChromosomeP1(double TOL){
+	public ChromosomeP1(){
 		super();
 		this.genotype=new RealGen[1];	//Un solo gen porque solo hay una variable.
-		this.genotype[0]=new RealGen(0,32,TOL);
+		this.genotype[0]=new RealGen(0,32);
 		this.maximizacion=true;	//Problema de maximización.
 		this.fitness=calculateFitness();
 	}

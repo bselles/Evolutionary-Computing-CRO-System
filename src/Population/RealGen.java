@@ -8,15 +8,13 @@ public class RealGen extends Gen {
 	private double xmin;			//Valor mínimo que puede tomar la variable.
 	private double xmax;			//Valor máximo que puede tomar la variable.
 	public double phenotype;		//Fenotipo asociado al gen.
-	private double TOL;
 	
 	/**************************************************************************
 	 * CONSTRUCTORES
 	 **************************************************************************/
-	public RealGen(double xmin, double xmax, double TOL){
+	public RealGen(double xmin, double xmax){
 		this.xmax=xmax;
 		this.xmin=xmin;
-		this.TOL=TOL;
 		this.phenotype = getRandomDouble(xmin, xmax);
 	}
 	
@@ -47,7 +45,7 @@ public class RealGen extends Gen {
 	
 	@Override
 	public Gen getCopy(){
-		RealGen result= new RealGen(this.xmin, this.xmax,this.TOL);
+		RealGen result= new RealGen(this.xmin, this.xmax);
 		result.phenotype=this.phenotype;
 		return result;
 	}	

@@ -9,14 +9,12 @@ public class ChromosomeP4 extends Chromosome{
 	/**************************************************************************
 	 * CONSTRUCTORES
 	 **************************************************************************/
-	public ChromosomeP4(){}
-	
-	public ChromosomeP4(double TOL){
+	public ChromosomeP4(){
 		super();
 		//Crearemos dos genes, tantas como las variables del problema.
 		this.genotype=new RealGen[2];
-		this.genotype[0]= new RealGen(-10, 10,TOL);
-		this.genotype[1]= new RealGen(-10, 10,TOL);
+		this.genotype[0]= new RealGen(-10, 10);
+		this.genotype[1]= new RealGen(-10, 10);
 		this.maximizacion= false;	//Problema de minimización.
 		this.fitness=calculateFitness();
 

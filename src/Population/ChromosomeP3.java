@@ -10,14 +10,12 @@ public class ChromosomeP3 extends Chromosome{
 	/**************************************************************************
 	 * CONSTRUCTORES
 	 **************************************************************************/
-	public ChromosomeP3(){}
-	
-	public ChromosomeP3(double TOL){
+	public ChromosomeP3(){
 		super();
 		//Crearemos dos genes, tantas como las variables del problema.
 		this.genotype=new RealGen[2];
-		this.genotype[0]= new RealGen(-3, 12.1,TOL);
-		this.genotype[1]= new RealGen(4.1, 5.8,TOL);
+		this.genotype[0]= new RealGen(-3, 12.1);
+		this.genotype[1]= new RealGen(4.1, 5.8);
 		this.maximizacion=true;
 		this.fitness=calculateFitness();
 

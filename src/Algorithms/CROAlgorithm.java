@@ -52,6 +52,10 @@ public class CROAlgorithm {
 		return result;
 	}
 
+	public Chromosome  generateChromosome(){
+		return this.createChromosome();
+	}
+	
 	/*Método asociado a la parte 1a: Broadcast Spawning.
 	Seleccionamos una fracción de la población total y la apartamos.
 	Esta fracción se usará en la fase 2 (Brooding)*/
@@ -80,8 +84,7 @@ public class CROAlgorithm {
 				this.internalSelecteds.add(result.remove(generateRandomInt(0,result.size())));
 			}
 		}
-		
-		//El resultado serán los que harán brooding.
+		//El resultado serán los que harán la fase 1b : reproduccón sexual externa.
 		return result;
 	}
 
@@ -104,11 +107,11 @@ public class CROAlgorithm {
 	/*
 	 * Representa la fase 2. Cada uno disemina una mutación al mar.
 	 */
-	public ArrayList<Chromosome> internalSexualReproduction(ArrayList<Chromosome> population, double mutationProbability){
+	public ArrayList<Chromosome> internalSexualReproduction(double mutationProbability){
 
 		ArrayList<Chromosome> resul = new ArrayList<>();
-		resul.ensureCapacity(population.size());
-		for(int i = 0; i < population.size()-1; i++) resul.add(RealMutation.mutate(population.get(i), this.mutationType, mutationProbability, 1));
+		resul.ensureCapacity(internalSelecteds.size());
+		for(int i = 0; i < internalSelecteds.size()-1; i++) resul.add(RealMutation.mutate(internalSelecteds.get(i), this.mutationType, mutationProbability, 1));
 		
 		return resul;
 	}
@@ -150,8 +153,8 @@ public class CROAlgorithm {
 
 	
 	/****
-	CAMBIADO: ELIMINADO EL PASO POR REFERENCIA
-	CAMBIAR COMPARACIÓN FITNESS!!!!!!
+	CAMBIAR: ELIMINAR EL PASO POR REFERENCIA
+	CAMBIAR COMPARACIÓN FITNESS!!!!!!  ------------------->DONE
 	****/
 	/*
 	 * Representa la fase 4. 
@@ -168,7 +171,8 @@ public class CROAlgorithm {
 			
 			for(int j=0; j<survivingAttempts; j++) {
 				pos = generateRandomInt(0, population.size());
-				if(population.get(pos) == null || population.get(pos).getFitness() < aux.getFitness()) {
+				if(population.get(pos) == null || aux.compareTo(population.get(pos))==1) {
+				//if(population.get(pos) == null || population.get(pos).getFitness() < aux.getFitness()) {
 					population.set(pos, aux);
 					break;
 				}
@@ -227,15 +231,15 @@ public class CROAlgorithm {
 	private Chromosome createChromosome(){
 		switch (this.problem){
 		case 1:
-			return new ChromosomeP1(0);
+			return new ChromosomeP1();
 		case 2:
-			return new ChromosomeP2(0);
+			return new ChromosomeP2();
 		case 3:
-			return new ChromosomeP3(0);
+			return new ChromosomeP3();
 		case 4:
-			return new ChromosomeP4(0);
+			return new ChromosomeP4();
 		case 5:
-			return new ChromosomeP5(0, this.n);
+			return new ChromosomeP5(this.n);
 		default:
 			System.out.println("No debería entrar aquí. Número de problema erroneo.");
 			return null;

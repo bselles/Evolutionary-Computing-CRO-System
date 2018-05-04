@@ -114,7 +114,7 @@ public class RealReprod {
 		return hijos;
 	}
 	
-	
+	/*
 	public static void main(String[] args){
 		Chromosome c1= new ChromosomeP1(0.01);
 		Chromosome c2= new ChromosomeP1(0.01);
@@ -125,5 +125,5 @@ public class RealReprod {
 		c2=result.get(1);
 		System.out.println(c1.toString());
 		System.out.println(c2.toString());
-	}
+	}*/
 }

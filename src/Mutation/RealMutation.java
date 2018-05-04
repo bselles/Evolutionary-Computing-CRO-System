@@ -68,6 +68,7 @@ public class RealMutation {
 		return acumulador;
 	}
 
+	/*
 	public static void main(String[] args){
 		for(int i=0; i<10; i++){
 			Chromosome c= new ChromosomeP1(0.01);
@@ -75,6 +76,6 @@ public class RealMutation {
 			c=RealMutation.mutate(c, 2, 1, 0);
 			System.out.println(c.toString());
 		}
-	}
+	}*/
 	
 }

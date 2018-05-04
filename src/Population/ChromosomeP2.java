@@ -8,15 +8,13 @@ public class ChromosomeP2 extends Chromosome {
 	
 	/**************************************************************************
 	 * CONSTRUCTORES
-	 **************************************************************************/
-	public ChromosomeP2(){};
-	
-	public ChromosomeP2(double TOL){
+	 **************************************************************************/	
+	public ChromosomeP2(){
 		super();
 		this.genotype=new RealGen[2];
 		//Crearemos dos genes, tantas como las variables del problema.
-		this.genotype[0]= new RealGen(-512, 512,TOL);
-		this.genotype[1]= new RealGen(-512, 512,TOL);
+		this.genotype[0]= new RealGen(-512, 512);
+		this.genotype[1]= new RealGen(-512, 512);
 		this.maximizacion=false;	//Problema de minimización.
 		this.fitness=calculateFitness();
 
