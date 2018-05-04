@@ -2,6 +2,7 @@ package Algorithms;
 
 import java.util.ArrayList;
 
+import Mutation.RealMutation;
 import Population.Chromosome;
 import Population.ChromosomeP1;
 import Population.ChromosomeP2;
@@ -68,7 +69,7 @@ public class CROAlgorithm {
 		}
 		
 		//Distribuimos.
-		
+
 		int n= (int) (Math.floor(this.internalSelecteds.size()+result.size())*fraction);
 		
 		while(n != result.size()){
@@ -100,10 +101,15 @@ public class CROAlgorithm {
 	}
 
 	/*
-	 * Representa la fase 2.
+	 * Representa la fase 2. Cada uno disemina una mutación al mar.
 	 */
-	public ArrayList<Chromosome> internalSexualReproduction(double mutationProbability){
-		return null;
+	public ArrayList<Chromosome> internalSexualReproduction(ArrayList<Chromosome> population, double mutationProbability){
+
+		ArrayList<Chromosome> resul = new ArrayList<>();
+		resul.ensureCapacity(population.size());
+		for(int i = 0; i < population.size()-1; i++) resul.add(RealMutation.mutate(population.get(i), this.mutationType, mutationProbability, 1));
+		
+		return resul;
 	}
 
 	
@@ -195,7 +201,6 @@ public class CROAlgorithm {
 			}
 		}
 		
-		al.asexualReproduction(result, 0.2, 2);
 		
 		System.out.println("");
 		
