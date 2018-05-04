@@ -68,6 +68,7 @@ public abstract class Chromosome implements Comparable<Chromosome>{
 		for(int i=0; i<this.genotype.length; i++){
 			result=result+ "---------------------Gen "+ (i+1) + "---------------------\n";
 			result=result+ genotype[i].toString();
+			result=result+"\n";
 		}		
 		result=result+"\n";
 		result=result+ "Fitness Value:"+ this.getFitness()+ "\n";

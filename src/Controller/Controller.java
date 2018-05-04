@@ -35,12 +35,12 @@ public class Controller {
 	public void realizarCalculos(){
 		
 		//Suponemos que tenemos estos parametros en la interfaz.
-		this.N=6;
-		this.M=6;
+		this.N=80;
+		this.M=80;
 		this.generations=200;
 		this.occupationRatio=0.3;
 		this.broodingRatio=0.3;
-		this.survivingAttempts=3;
+		this.survivingAttempts=5;
 		this.arRatio=0.2;
 		this.depredationPercentage=0.05;
 		this.depredationProbability=0.1;
@@ -50,7 +50,7 @@ public class Controller {
 		this.crossType=3;
 		
 		this.problem=5;
-		this.n=2;
+		this.n=3;
 		
 		
 		//Algoritmos que utilizaremos para la evaluación.
