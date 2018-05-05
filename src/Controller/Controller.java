@@ -1,81 +1,143 @@
 package Controller;
 
+import org.math.plot.utils.Array;
+
 import java.util.ArrayList;
+import java.util.List;
 
 import Algorithms.CROAlgorithm;
 import Population.Chromosome;
 
 public class Controller {
-	
+
+	public interface Callback {
+		void onGenerationOver(int generation, EvaluateValues evaluateValues, List<Chromosome> population);
+	}
+
+	private Callback callback;
+
+	public void setCallback(Callback callback) {
+		this.callback = callback;
+	}
+
 	/**************************************************************************
 	 * ATRIBUTOS
 	 **************************************************************************/
-	//En principio, la mayoría de estos atributos se obtienen de la interfaz.
+	//En principio, la mayorï¿½a de estos atributos se obtienen de la interfaz.
 	private int N;
 	private int M;
-	private int generations;		//Número de generaciones a evaluar.
+	private int generations;		//Nï¿½mero de generaciones a evaluar.
 	
 	private double occupationRatio;	//Ratio inicial de celdas ocupadas.
-	private double broodingRatio;	//Ratio de elementos que harán reproducción sexual externa
-	private int survivingAttempts;	//Número de intentos que tiene cada larva para ubicarse en la población en la fase 3.
-	private double arRatio;			//Porcentaje de soluciones que se intentarán reproducir asexualmente (fase 4).
+	private double broodingRatio;	//Ratio de elementos que harï¿½n reproducciï¿½n sexual externa
+	private int survivingAttempts;	//Nï¿½mero de intentos que tiene cada larva para ubicarse en la poblaciï¿½n en la fase 3.
+	private double arRatio;			//Porcentaje de soluciones que se intentarï¿½n reproducir asexualmente (fase 4).
 	
-	private double depredationPercentage; 	//Porcentaje de población a la que se aplicará la fase 5 (depredation).
+	private double depredationPercentage; 	//Porcentaje de poblaciï¿½n a la que se aplicarï¿½ la fase 5 (depredation).
 	private double depredationProbability;	//Probabilidad de que cada individuo del porcentaje anterior muera (depredation phase).
 	
-	private double crossProbability=1;		//Probabilidad de que los individuos se crucen mediante reproducción sexual externa
-	private double mutationProbability=1;		//Probabilidad de que ocurra la reproducción sexual interna
+	private double crossProbability = 1;		//Probabilidad de que los individuos se crucen mediante reproducciï¿½n sexual externa
+	private double mutationProbability = 1;		//Probabilidad de que ocurra la reproducciï¿½n sexual interna
 	
-	private int mutationType;
-	private int crossType;
-	
+	private int mutationType;               //para seleccionar las mutaciones
+	private int crossType;                  //para seleccionar el tipo de cruce
+
 	private int problem; 			//Problema a resolver. Los posibles valores son de 1 a 5.
 	private int n;					//En el caso de que resolvamos el problema 5, valor de n.
-	
-	public void realizarCalculos(){
-		
+
+    public void setn(int n) {
+        this.n = n;
+    }
+	public void setN(int n) {
+        N = n;
+    }
+
+    public void setM(int m) {
+        M = m;
+    }
+
+    public void setGenerations(int generations) {
+        this.generations = generations;
+    }
+
+    public void setOccupationRatio(double occupationRatio) {
+        this.occupationRatio = occupationRatio;
+    }
+
+    public void setBroodingRatio(double broodingRatio) {
+        this.broodingRatio = broodingRatio;
+    }
+
+    public void setSurvivingAttempts(int survivingAttempts) {
+        this.survivingAttempts = survivingAttempts;
+    }
+
+    public void setArRatio(double arRatio) {
+        this.arRatio = arRatio;
+    }
+
+    public void setDepredationPercentage(double depredationPercentage) {
+        this.depredationPercentage = depredationPercentage;
+    }
+
+    public void setDepredationProbability(double depredationProbability) {
+        this.depredationProbability = depredationProbability;
+    }
+
+    public void setMutationType(int mutationType) {
+        this.mutationType = mutationType;
+    }
+
+    public void setCrossType(int crossType) {
+        this.crossType = crossType;
+    }
+
+    public void setProblem(int problem) {
+        this.problem = problem;
+    }
+
+	public void realizarCalculos() {
 		//Suponemos que tenemos estos parametros en la interfaz.
-		this.N=10;
-		this.M=10;
-		this.generations=200;
-		this.occupationRatio=0.3;
-		this.broodingRatio=0.3;
-		this.survivingAttempts=5;
-		this.arRatio=0.2;
-		this.depredationPercentage=0.05;
-		this.depredationProbability=0.1;
-		this.crossProbability=1;
-		this.mutationProbability=1;
-		this.mutationType=1;
-		this.crossType=3;
+//		this.N=10;
+//		this.M=10;
+//		this.generations=200;
+//		this.occupationRatio=0.3;
+//		this.broodingRatio=0.3;
+//		this.survivingAttempts=5;
+//		this.arRatio=0.2;
+//		this.depredationPercentage=0.05;
+//		this.depredationProbability=0.1;
+//		this.crossProbability=1;
+//		this.mutationProbability=1;
+//		this.mutationType=1;
+//		this.crossType=3;
+//		this.problem=3;
+//		this.n=3;
 		
-		this.problem=3;
-		this.n=3;
-		
-		
-		//Algoritmos que utilizaremos para la evaluación.
+
+		//Algoritmos que utilizaremos para la evaluaciï¿½n.
 		CROAlgorithm cro =new CROAlgorithm(problem,n,mutationType,crossType); //Cuando se implemente la clase, instanciarla correctamente.
 	
-		//Generamos una población inicial.
+		//Generamos una poblaciï¿½n inicial.
 		ArrayList<Chromosome> population= cro.generatePopulation(N, M, occupationRatio);
 		ArrayList<Chromosome> fraction;
-		ArrayList<Chromosome> water;	//Simulará el agua. Se almacenarán los resultados de los cruces, por ejemplo.
+		ArrayList<Chromosome> water;	//Simularï¿½ el agua. Se almacenarï¿½n los resultados de los cruces, por ejemplo.
 		
 		//Generamos uno aleatorio.
-		Chromosome winner=cro.generateChromosome();
-		
+
 		//Bucle principal.
 		for(int i=0; i<generations;i++){
-			
-			cro.printPopulation(N,M,population);
-			System.out.println("---------------------------------");
-			
-			
-			//Fase 1a: recogemos parte de la población para usarlo en la fase 2.
+			Chromosome winner = cro.generateChromosome();
+			Chromosome loser = cro.generateChromosome();
+			//cro.printPopulation(N,M,population);
+			//System.out.println("---------------------------------");
+
+
+			//Fase 1a: recogemos parte de la poblaciï¿½n para usarlo en la fase 2.
 			fraction=cro.pickPopulationFraction(population, broodingRatio);
-			//Fase 1b: Cruces e introducción del resultado en el agua.
+			//Fase 1b: Cruces e introducciï¿½n del resultado en el agua.
 			water=cro.externalSexualReproduction(fraction,crossProbability);
-			//Fase 2: "mutación" (Reproducción sexual interna).
+			//Fase 2: "mutaciï¿½n" (Reproducciï¿½n sexual interna).
 			water.addAll(cro.internalSexualReproduction(mutationProbability));
 			//Fase 3:
 			population=cro.putLarvaesIntoPopulation(population, water, survivingAttempts);
@@ -84,23 +146,34 @@ public class Controller {
 			//POPULATION SE MODIFICA POR REFERENCIA!!!!!--------->CUIDADO!
 			//Fase 5:
 			population=cro.depredate(population, depredationPercentage, depredationProbability);
-			
-			//Cogemos el mejor de esa generación.
-			for(int j=0; j<population.size(); j++){
-				//Si ese individuo de la población de "mejor" que el actual ganador...
-				if(population.get(j)!=null && winner.compareTo(population.get(j))==-1){
-					winner=population.get(j).getCopy();
+
+			EvaluateValues results = new EvaluateValues();
+			double notNull = 0;
+			results.averageFitness = 0;
+			//Cogemos el mejor de esa generaciï¿½n.
+			for (int j=0; j<population.size(); j++){
+
+				Chromosome chromosome = population.get(j);
+				if (chromosome != null) {
+					//Si ese individuo de la poblaciï¿½n de "mejor" que el actual ganador...
+					if (winner.compareTo(chromosome) < 0) {
+						winner = chromosome.getCopy();
+					}
+					if (loser.compareTo(chromosome) > 0) {
+						loser = chromosome.getCopy();
+					}
+					results.averageFitness += chromosome.getFitness();
+					notNull++;
 				}
 			}
-			
+			results.worstFitness = loser.getFitness();
+			results.bestFitness = winner.getFitness();
+			if (notNull > 0) {
+				results.averageFitness = results.averageFitness / notNull;
+			}
+			callback.onGenerationOver(i, results, population);
 		}
-		
-		
-		System.out.print(winner.toString());
+		//System.out.print(winner.toString());
 	}
-	
-	public static void main(String[] args){
-		Controller c= new Controller();
-		c.realizarCalculos();
-	}
+
 }
