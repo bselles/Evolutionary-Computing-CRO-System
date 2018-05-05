@@ -54,6 +54,7 @@ public class PlotPanel extends Plot2DPanel {
         changePlotData(1, averageData.toArray(new double[generation+1][]));
         changePlotData(2, worstData.toArray(new double[generation+1][]));
 
+        setAutoBounds(1);
         setFixedBounds(0, 0, generation);
     }
 
