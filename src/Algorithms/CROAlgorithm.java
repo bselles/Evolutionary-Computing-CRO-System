@@ -46,10 +46,10 @@ public class CROAlgorithm {
 	
 	
 	public  ArrayList<Chromosome> generatePopulation(int N, int M, double occupationRatio){
-		//Su tamaÒo ser· NxM.
+		//Su tama√±o ser√° NxM.
 		ArrayList<Chromosome> result= new ArrayList<Chromosome>();
 		
-		//Generamos un arrecife vacÌo.
+		//Generamos un arrecife vac√≠o.
 		for(int i=0; i<N*M; i++){
 			result.add(null);
 		}
@@ -73,9 +73,9 @@ public class CROAlgorithm {
 		return this.createChromosome();
 	}
 	
-	/*MÈtodo asociado a la parte 1a: Broadcast Spawning.
-	Seleccionamos una fracciÛn de la poblaciÛn total y la apartamos.
-	Esta fracciÛn se usar· en la fase 2 (Brooding)*/
+	/*M√©todo asociado a la parte 1a: Broadcast Spawning.
+	Seleccionamos una fracci√≥n de la poblaci√≥n total y la apartamos.
+	Esta fracci√≥n se usar√° en la fase 2 (Brooding)*/
 	public  ArrayList<Chromosome> pickPopulationFraction(ArrayList<Chromosome> population, double fraction){
 		ArrayList<Chromosome> result = new ArrayList<Chromosome>();
 		this.internalSelecteds =  new ArrayList<Chromosome>();
@@ -101,7 +101,7 @@ public class CROAlgorithm {
 				this.internalSelecteds.add(result.remove(generateRandomInt(0,result.size())));
 			}
 		}
-		//El resultado ser·n los que har·n la fase 1b : reproduccÛn sexual externa.
+		//El resultado ser√°n los que har√°n la fase 1b : reproducc√≥n sexual externa.
 		return result;
 	}
 
@@ -112,7 +112,7 @@ public class CROAlgorithm {
 		ArrayList<Chromosome> resul = new ArrayList<>();
 		resul.ensureCapacity(population.size());
 		
-		for(int i = 0; i < population.size()-1; i++) 
+		for(int i = 0; i < population.size()-1; i+=2) 
 			resul.addAll(RealReprod.reproduce(population.get(i), population.get(i+1), crossProb, this.crossType));
 		
 		if(population.size()%2 == 1)
@@ -122,7 +122,7 @@ public class CROAlgorithm {
 	}
 
 	/*
-	 * Representa la fase 2. Cada uno disemina una mutaciÛn al mar.
+	 * Representa la fase 2. Cada uno disemina una mutaci√≥n al mar.
 	 */
 	public ArrayList<Chromosome> internalSexualReproduction(double mutationProbability){
 
@@ -136,12 +136,12 @@ public class CROAlgorithm {
 	
 	/*
 	 * Representa la fase 3.
-	 * Las larvas generadas en la fase 1 y 2, que est·n en el agua, luchan por situarse en el coral (population).
+	 * Las larvas generadas en la fase 1 y 2, que est√°n en el agua, luchan por situarse en el coral (population).
 	 * 
 	 */
 	public ArrayList<Chromosome> putLarvaesIntoPopulation(ArrayList<Chromosome> population, ArrayList<Chromosome> water, int survivingAttempts){
 		
-		//Clonamos la poblaciÛn inicial.
+		//Clonamos la poblaci√≥n inicial.
 		
 		ArrayList<Chromosome> result= (ArrayList<Chromosome>) population.clone();
 		
@@ -154,11 +154,11 @@ public class CROAlgorithm {
 			do{
 				pos=generateRandomInt(0,result.size());
 				counter++;
-				//Mientras la posiciÛn este ocupada y el fitness el elemento de esta posiciÛn es
+				//Mientras la posici√≥n este ocupada y el fitness el elemento de esta posici√≥n es
 				//mejor que el fitness del que queremos introducir.
 			}while(result.get(pos)!=null && (result.get(pos).compareTo(water.get(i))==1)&& counter<survivingAttempts);
 			
-			//Insertamos la soluciÛn, si procede.
+			//Insertamos la soluci√≥n, si procede.
 			if(counter<survivingAttempts){
 				result.set(pos, water.get(i));
 			}
@@ -171,11 +171,10 @@ public class CROAlgorithm {
 	
 	/****
 	CAMBIAR: ELIMINAR EL PASO POR REFERENCIA
-	CAMBIAR COMPARACI”N FITNESS!!!!!!  ------------------->DONE
 	****/
 	/*
 	 * Representa la fase 4. 
-	 * ReproducciÛn asexual.
+	 * Reproducci√≥n asexual.
 	 */
 	public void asexualReproduction(ArrayList<Chromosome> population, double ratio, int survivingAttempts){
 		int clones = (int) (population.size() * ratio), pos;
@@ -201,7 +200,7 @@ public class CROAlgorithm {
 
 	/*
 	 * Representa la fase 5.
-	 * Se eliminan ciertos individuos de la poblaciÛn (depredation).
+	 * Se eliminan ciertos individuos de la poblaci√≥n (depredation).
 	 */
 	public ArrayList<Chromosome> depredate(ArrayList<Chromosome> population, double ratio, double probability){
 		ArrayList<Chromosome> result= (ArrayList<Chromosome>) population.clone();
@@ -225,7 +224,7 @@ public class CROAlgorithm {
 		//Recorremos result y eliminamos los que no se encuentren en sorted.
 		for(int i=0; i<result.size();i++){
 			if(result.get(i)!=null && !sorted.contains(result.get(i))){
-				//En funciÛn de la probabilidad introducido por par·metro, lo eliminamos o no.
+				//En funci√≥n de la probabilidad introducido por par√°metro, lo eliminamos o no.
 				if(generateRandomDouble(0,1)<probability){
 					result.set(i,null);	//Eliminarlo implica ponerlo a null.
 				}
@@ -258,7 +257,7 @@ public class CROAlgorithm {
 		case 5:
 			return new ChromosomeP5(this.n);
 		default:
-			System.out.println("No deberÌa entrar aquÌ. N˙mero de problema erroneo.");
+			System.out.println("No deber√≠a entrar aqu√≠. N√∫mero de problema erroneo.");
 			return null;
 		}
 	}
