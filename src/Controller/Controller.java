@@ -23,79 +23,101 @@ public class Controller {
 	/**************************************************************************
 	 * ATRIBUTOS
 	 **************************************************************************/
-	//En principio, la mayor�a de estos atributos se obtienen de la interfaz.
-	private int N;
-	private int M;
-	private int generations;		//N�mero de generaciones a evaluar.
 	
-	private double occupationRatio;	//Ratio inicial de celdas ocupadas.
-	private double broodingRatio;	//Ratio de elementos que har�n reproducci�n sexual externa
-	private int survivingAttempts;	//N�mero de intentos que tiene cada larva para ubicarse en la poblaci�n en la fase 3.
-	private double arRatio;			//Porcentaje de soluciones que se intentar�n reproducir asexualmente (fase 4).
+	private int rows;
+	private int cols;
+	private int generations;				//Numero de generaciones a evaluar.
 	
-	private double depredationPercentage; 	//Porcentaje de poblaci�n a la que se aplicar� la fase 5 (depredation).
-	private double depredationProbability;	//Probabilidad de que cada individuo del porcentaje anterior muera (depredation phase).
+	//Fase 0: ocupar el arrecife
+	private double occupationRatio;			//Ratio inicial de celdas ocupadas.
 	
-	private double crossProbability = 1;		//Probabilidad de que los individuos se crucen mediante reproducci�n sexual externa
-	private double mutationProbability = 1;		//Probabilidad de que ocurra la reproducci�n sexual interna
-	
-	private int mutationType;               //para seleccionar las mutaciones
+	//Fase 1a: dividir la poblacion entre rep sex externa o interna
+	private double broadcastRatio;			//Ratio de elementos que haran reproduccion sexual externa
+	//Fase 1b: aplicar la reproduccion sexual externa
+	private double crossProbability;		//Probabilidad de que los individuos se crucen mediante reproduccion sexual externa
 	private int crossType;                  //para seleccionar el tipo de cruce
+	
+	//Fase 2: aplicar la reproduccion sexual interna
+	private double broodingProbability;		//Probabilidad de que ocurra una modificacion durante la reproduccion sexual interna
+	private int mutationType;               //para seleccionar el tipo de mutacion
+	
+	//Fase 3 y 4: establecer larvaes
+	private int survivingAttempts;			//Numero de intentos que tiene cada larva para ubicarse en la poblacion.
+	
+	//Fase 4: elegir los individuos que intentaran hacer la reproduccion asexual
+	private double asexReprRatio;			//Ratio de elementos que realizaran una reproduccion asexual
+	
+	//Fase 5: fase de depredacion de arrecifes
+	private double depredationPercentage; 	//Porcentaje de poblacion a la que se aplicara la depredacion.
+	private double depredationProbability;	//Probabilidad de que cada individuo del porcentaje anterior muera.
+	
 
-	private int problem; 			//Problema a resolver. Los posibles valores son de 1 a 5.
-	private int n;					//En el caso de que resolvamos el problema 5, valor de n.
+	private int problem; 					//Problema a resolver. Los posibles valores son de 1 a 5.
+	private int nGenes;							//En el caso de que resolvamos el problema 5, valor de n.
 
-    public void setn(int n) {
-        this.n = n;
-    }
-	public void setN(int n) {
-        N = n;
-    }
+	
+	
+	public void setRows(int rows) {
+		this.rows = rows;
+	}
 
-    public void setM(int m) {
-        M = m;
-    }
+	public void setCols(int cols) {
+		this.cols = cols;
+	}
 
-    public void setGenerations(int generations) {
-        this.generations = generations;
-    }
+	public void setGenerations(int generations) {
+		this.generations = generations;
+	}
 
-    public void setOccupationRatio(double occupationRatio) {
-        this.occupationRatio = occupationRatio;
-    }
+	public void setOccupationRatio(double occupationRatio) {
+		this.occupationRatio = occupationRatio;
+	}
 
-    public void setBroodingRatio(double broodingRatio) {
-        this.broodingRatio = broodingRatio;
-    }
+	public void setBroadcastRatio(double broadcastRatio) {
+		this.broadcastRatio = broadcastRatio;
+	}
 
-    public void setSurvivingAttempts(int survivingAttempts) {
-        this.survivingAttempts = survivingAttempts;
-    }
+	public void setCrossProbability(double crossProbability) {
+		this.crossProbability = crossProbability;
+	}
 
-    public void setArRatio(double arRatio) {
-        this.arRatio = arRatio;
-    }
+	public void setCrossType(int crossType) {
+		this.crossType = crossType;
+	}
 
-    public void setDepredationPercentage(double depredationPercentage) {
-        this.depredationPercentage = depredationPercentage;
-    }
+	public void setBroodingProbability(double broodingProbability) {
+		this.broodingProbability = broodingProbability;
+	}
 
-    public void setDepredationProbability(double depredationProbability) {
-        this.depredationProbability = depredationProbability;
-    }
+	public void setMutationType(int mutationType) {
+		this.mutationType = mutationType;
+	}
 
-    public void setMutationType(int mutationType) {
-        this.mutationType = mutationType;
-    }
+	public void setSurvivingAttempts(int survivingAttempts) {
+		this.survivingAttempts = survivingAttempts;
+	}
 
-    public void setCrossType(int crossType) {
-        this.crossType = crossType;
-    }
+	public void setAsexReprRatio(double asexReprRatio) {
+		this.asexReprRatio = asexReprRatio;
+	}
 
-    public void setProblem(int problem) {
-        this.problem = problem;
-    }
+	public void setDepredationPercentage(double depredationPercentage) {
+		this.depredationPercentage = depredationPercentage;
+	}
 
+	public void setDepredationProbability(double depredationProbability) {
+		this.depredationProbability = depredationProbability;
+	}
+
+	public void setProblem(int problem) {
+		this.problem = problem;
+	}
+
+	public void setnGenes(int nGenes) {
+		this.nGenes = nGenes;
+	}
+
+	
 	public void realizarCalculos() {
 		//Suponemos que tenemos estos parametros en la interfaz.
 //		this.N=10;
@@ -115,11 +137,11 @@ public class Controller {
 //		this.n=3;
 		
 
-		//Algoritmos que utilizaremos para la evaluaci�n.
-		CROAlgorithm cro =new CROAlgorithm(problem,n,mutationType,crossType); //Cuando se implemente la clase, instanciarla correctamente.
+		//Algoritmos que utilizaremos para la evaluacion.
+		CROAlgorithm cro =new CROAlgorithm(problem, nGenes, mutationType, crossType); //Cuando se implemente la clase, instanciarla correctamente.
 	
 		//Generamos una poblaci�n inicial.
-		ArrayList<Chromosome> population= cro.generatePopulation(N, M, occupationRatio);
+		ArrayList<Chromosome> population= cro.generatePopulation(rows, cols, occupationRatio);
 		ArrayList<Chromosome> fraction;
 		ArrayList<Chromosome> water;	//Simular� el agua. Se almacenar�n los resultados de los cruces, por ejemplo.
 		
@@ -133,29 +155,29 @@ public class Controller {
 			//System.out.println("---------------------------------");
 
 
-			//Fase 1a: recogemos parte de la poblaci�n para usarlo en la fase 2.
-			fraction=cro.pickPopulationFraction(population, broodingRatio);
-			//Fase 1b: Cruces e introducci�n del resultado en el agua.
-			water=cro.externalSexualReproduction(fraction,crossProbability);
-			//Fase 2: "mutaci�n" (Reproducci�n sexual interna).
-			water.addAll(cro.internalSexualReproduction(mutationProbability));
+			//Fase 1a: recogemos parte de la poblacion para usarlo en la fase 2.
+			fraction=cro.pickPopulationFraction(population, broadcastRatio);
+			//Fase 1b: Cruces e introduccion del resultado en el agua.
+			water=cro.externalSexualReproduction(fraction, crossProbability);
+			//Fase 2: "mutacion" (Reproduccion sexual interna).
+			water.addAll(cro.internalSexualReproduction(broodingProbability) );
 			//Fase 3:
 			population=cro.putLarvaesIntoPopulation(population, water, survivingAttempts);
 			//Fase 4:
-			cro.asexualReproduction( population, arRatio, survivingAttempts);
-			//POPULATION SE MODIFICA POR REFERENCIA!!!!!--------->CUIDADO!
+			//POPULATION SE MODIFICA POR REFERENCIA!!!!! ---------> CUIDADO!
+			cro.asexualReproduction( population, asexReprRatio, survivingAttempts);
 			//Fase 5:
 			population=cro.depredate(population, depredationPercentage, depredationProbability);
 
 			EvaluateValues results = new EvaluateValues();
 			double notNull = 0;
 			results.averageFitness = 0;
-			//Cogemos el mejor de esa generaci�n.
+			//Cogemos el mejor de esa generacion.
 			for (int j=0; j<population.size(); j++){
 
 				Chromosome chromosome = population.get(j);
 				if (chromosome != null) {
-					//Si ese individuo de la poblaci�n de "mejor" que el actual ganador...
+					//Si ese individuo de la poblacion es "mejor" que el actual ganador...
 					if (winner.compareTo(chromosome) < 0) {
 						winner = chromosome.getCopy();
 					}

@@ -58,8 +58,20 @@ public abstract class Chromosome implements Comparable<Chromosome>{
 		}
 	}
 	
+	@Override
+	public boolean equals(Object obj) {
+		if(obj == null)
+			return false;
+		if(obj.getClass() != this.getClass())
+			return false;
+		if( ! ((Chromosome)obj).genotype.equals(this.genotype) )
+			return false;
+		return true;
+	}
+	
 	//PARA DEBUG
 	//Devuelve un string con la información relevante del cromosoma.
+	@Override
 	public String toString(){
 		String result="";
 		result=result+ "***************************************************\n";
