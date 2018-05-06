@@ -15,6 +15,7 @@ public class PrincipalWindow extends JFrame implements Controller.Callback {
     private Controller controller;
     private PlotPanel grafica;
     private RectBoardGameView cuadrado;
+    private JTextField bestText,worstText,averageText;
 
     public PrincipalWindow(Controller controller) {
         this.controller = controller;
@@ -98,35 +99,35 @@ public class PrincipalWindow extends JFrame implements Controller.Callback {
         
         JPanel CeldasOcupadas = new JPanel();
         CeldasOcupadas.add(new JLabel("Initial occupation ratio: "));
-        SpinnerNumberModel occupationRatio = new SpinnerNumberModel(0.4, 0, 1, 0.05);
+        SpinnerNumberModel occupationRatio = new SpinnerNumberModel(0.4, 0, 10, 0.05);
         JSpinner occupationSpinner = new JSpinner(occupationRatio);
         occupationSpinner.setEnabled(true);
         CeldasOcupadas.add(occupationSpinner);
         
         JPanel panelRatioExterna = new JPanel();
         panelRatioExterna.add( new JLabel("Extern reprod ratio"));
-        SpinnerNumberModel ratioExtInt = new SpinnerNumberModel(0.9, 0.0, 1, 0.05);
+        SpinnerNumberModel ratioExtInt = new SpinnerNumberModel(0.9, 0.0, 10, 0.05);
         JSpinner extIntSpinner = new JSpinner(ratioExtInt);
         extIntSpinner.setEnabled(true);
         panelRatioExterna.add(extIntSpinner);
         
         JPanel ProbCruce = new JPanel();
         ProbCruce.add(new JLabel("Broadcast cross prob: "));
-        SpinnerNumberModel crossProb = new SpinnerNumberModel(0.5, 0, 1, 0.05);
+        SpinnerNumberModel crossProb = new SpinnerNumberModel(0.5, 0, 10, 0.05);
         JSpinner crossProbSpinner = new JSpinner(crossProb);
         mSpinner.setEnabled(true);
         ProbCruce.add(crossProbSpinner);
 
         JPanel panelProbBrooding = new JPanel();
         panelProbBrooding.add(new JLabel("Brooding mutation prob: "));
-        SpinnerNumberModel broodProb = new SpinnerNumberModel(0.5, 0, 1, 0.05);
+        SpinnerNumberModel broodProb = new SpinnerNumberModel(0.5, 0, 10, 0.05);
         JSpinner broodProbSpinner = new JSpinner(broodProb);
         broodProbSpinner.setEnabled(true);
         panelProbBrooding.add(broodProbSpinner);
         
         JPanel panelAsexRepr = new JPanel();
         panelAsexRepr.add(new JLabel("Asexual repr ratio: "));
-        SpinnerNumberModel cloneRatio = new SpinnerNumberModel(0.05, 0, 1, 0.02);
+        SpinnerNumberModel cloneRatio = new SpinnerNumberModel(0.05, 0, 10, 0.02);
         JSpinner asexReprSpinner =  new JSpinner(cloneRatio);
         asexReprSpinner.setEnabled(true);
         panelAsexRepr.add(asexReprSpinner);
@@ -151,14 +152,14 @@ public class PrincipalWindow extends JFrame implements Controller.Callback {
 
         JPanel depredationsPer = new JPanel();
         depredationsPer.add(new JLabel("Depredation Percentage: "));
-        SpinnerNumberModel dePer = new SpinnerNumberModel(0.4, 0, 1, 0.05);
+        SpinnerNumberModel dePer = new SpinnerNumberModel(0.4, 0, 10, 0.05);
         JSpinner percentage = new JSpinner(dePer);
         percentage.setEnabled(true);
         depredationsPer.add(percentage);
 
         JPanel depredationsProbability = new JPanel();
         depredationsProbability.add(new JLabel("Depredation Probability: "));
-        SpinnerNumberModel probability = new SpinnerNumberModel(0.5, 0, 1, 0.05);
+        SpinnerNumberModel probability = new SpinnerNumberModel(0.5, 0, 10, 0.05);
         JSpinner Dprobability = new JSpinner(probability);
         Dprobability.setEnabled(true);
         depredationsProbability.add(Dprobability);
@@ -198,12 +199,39 @@ public class PrincipalWindow extends JFrame implements Controller.Callback {
         fourthPanel.add(problemComboBox);
         fourthPanel.add(mutationPanel);
         fourthPanel.add(reproductionPanel);
+        
+        JPanel fifthPanel = new JPanel();
+        fifthPanel.setBorder(BorderFactory.createTitledBorder("Results"));
+
+        JPanel best = new JPanel();
+        best.add(new JLabel("Best: "));
+        bestText = new JTextField();
+        bestText.setText("                ");
+        best.add(bestText);
+        
+
+        JPanel worst = new JPanel();
+        worst.add(new JLabel("Worst: "));   
+        worstText = new JTextField();
+        worstText.setText("                ");
+        worst.add(worstText);
+        
+        JPanel average = new JPanel();
+        average.add(new JLabel("Average: "));
+        averageText = new JTextField();
+        averageText.setText("                ");
+        average.add(averageText);
+
+        fifthPanel.add(best);
+        fifthPanel.add(worst);
+        fifthPanel.add(average);
 
 
         panel.add(firstPanel);
         panel.add(secondPanel);
         panel.add(thridPanel);
         panel.add(fourthPanel);
+        panel.add(fifthPanel);
 
         JButton okButton = new JButton("OK");
         okButton.addActionListener(a -> {
@@ -282,6 +310,9 @@ public class PrincipalWindow extends JFrame implements Controller.Callback {
             public void run() {
                 grafica.update(generation, evaluateValues);
                 cuadrado.setPopulation(population);
+                bestText.setText(String.format("%.4f", evaluateValues.bestFitness));
+                worstText.setText(String.format("%.4f", evaluateValues.worstFitness));
+                averageText.setText(String.format("%.4f", evaluateValues.averageFitness));
             }
         });
     }
