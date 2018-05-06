@@ -19,10 +19,7 @@ public class TestCases {
 	//Ejecuta el problema con los parámetros introducidos por parámetro y devuelve el resultado.
 	private double test(int N, int M, int generations, double occupationRatio, double broodingRatio, int survivingAttempts,
 			double arRatio, double depredationPercentage, double depredationProbability, 
-			int mutationType, int crossType, int problem, int n){
-		
-		double crossProbability=1;
-		double mutationProbability=1;
+			int mutationType, int crossType, int problem, int n,double crossProbability,double mutationProbability){
 		
 		//Algoritmos que utilizaremos para la evaluación.
 		CROAlgorithm cro =new CROAlgorithm(problem,n,mutationType,crossType); //Cuando se implemente la clase, instanciarla correctamente.
@@ -37,9 +34,6 @@ public class TestCases {
 		
 		//Bucle principal.
 		for(int i=0; i<generations;i++){
-			
-			//cro.printPopulation(N,M,population);
-			//System.out.println("---------------------------------");
 			
 			
 			//Fase 1a: recogemos parte de la población para usarlo en la fase 2.
@@ -79,7 +73,10 @@ public class TestCases {
 		double[] depredationRatioValues= {0.1,0.3,0.5,0.7};
 		double[] depredationProbabilitiesValues= {0.1,0.3,0.5,0.7};
 		int[] crossTypesValues={1,2,3,4};
-		int[] mutationTypesValues={1};
+		int[] mutationTypesValues={1,2};
+		
+		double[] mutationProbabilities={0.4,0.5,0.6};
+		double[] crossProbabilities={0.4,0.5,0.6};
 		
 		double bestDiff=10000;
 		double currentDiff;
@@ -90,89 +87,84 @@ public class TestCases {
 		double desviacion=0;
 		double varianza=0;
 		
-		int bestNValue=0;
-		int bestMValue=0;
-		int bestGenerationValue=0;
-		double bestOccupationRatio=0;
-		double bestBroodingRatio=0;
-		double bestSurvivingAttemps=0;
-		double bestArRatio=0;
-		double bestDepredationRatio=0;
-		double bestDepredationProb=0;
-		double bestCrossType=0;
-		double bestMutationType=0;
-		
 		double current;
 		
-		for(int nIndex=0; nIndex<nValues.length;nIndex++){
-			for(int mIndex=0; mIndex<mValues.length; mIndex++){
-				for(int genIndex=0; genIndex<generationValues.length; genIndex++){
-					for(int orIndex=0; orIndex<occupationRatioValues.length; orIndex++){
-						for(int brIndex=0; brIndex<broodingRatioValues.length;brIndex++){
-							for(int saIndex=0; saIndex<survivingAttempts.length;saIndex++ ){
-								for(int arIndex=0; arIndex<arRatioValues.length; arIndex++){
-									for(int drIndex=0; drIndex<depredationRatioValues.length; drIndex++){
-										for(int dpIndex=0; dpIndex<depredationProbabilitiesValues.length; dpIndex++){
-											for(int ctIndex=0; ctIndex<crossTypesValues.length; ctIndex++){
-												for(int mtIndex=0; mtIndex<mutationTypesValues.length; mtIndex++){
-	
-													average=0;
-													bestDiff=1000;
-													desviacion=0;
-													
-													for(int i=0; i<execNum; i++){
-														//Devuelve el resultado del cromosoma con mayor fitness.
-														current= this.test(nValues[nIndex], mValues[mIndex], generationValues[genIndex], occupationRatioValues[orIndex],
-																broodingRatioValues[brIndex],survivingAttempts[saIndex], arRatioValues[arIndex],  arRatioValues[arIndex],
-																depredationProbabilitiesValues[dpIndex], mutationTypesValues[mtIndex], crossTypesValues[ctIndex], problem, n );
-														
-														//Si la diferencia con la respuesta correcta es menor que la mejor respuesta obtenida hasta ahora, almacenamos el resultado.
-														
-														average+=current;
-														desviacion+=Math.pow(current, 2);
-														
-														if(problem!=5){
-															currentDiff=Math.abs(results.get(problem+n)-current);
-														}else{
-															currentDiff=Math.abs(results.get(problem)-current);
-														}
-														
-														if(currentDiff<bestDiff){
-															bestDiff=currentDiff;
-															bestValue=current;
+		for(int mutIndex=0; mutIndex<mutationProbabilities.length;mutIndex++){
+			for(int crossIndex=0; crossIndex<crossProbabilities.length;crossIndex++){
+				for(int nIndex=0; nIndex<nValues.length;nIndex++){
+					for(int mIndex=0; mIndex<mValues.length; mIndex++){
+						for(int genIndex=0; genIndex<generationValues.length; genIndex++){
+							for(int orIndex=0; orIndex<occupationRatioValues.length; orIndex++){
+								for(int brIndex=0; brIndex<broodingRatioValues.length;brIndex++){
+									for(int saIndex=0; saIndex<survivingAttempts.length;saIndex++ ){
+										for(int arIndex=0; arIndex<arRatioValues.length; arIndex++){
+											for(int drIndex=0; drIndex<depredationRatioValues.length; drIndex++){
+												for(int dpIndex=0; dpIndex<depredationProbabilitiesValues.length; dpIndex++){
+													for(int ctIndex=0; ctIndex<crossTypesValues.length; ctIndex++){
+														for(int mtIndex=0; mtIndex<mutationTypesValues.length; mtIndex++){
+			
+															average=0;
+															bestDiff=1000;
+															desviacion=0;
+															
+															for(int i=0; i<execNum; i++){
+																//Devuelve el resultado del cromosoma con mayor fitness.
+																current= this.test(nValues[nIndex], mValues[mIndex], generationValues[genIndex], occupationRatioValues[orIndex],
+																		broodingRatioValues[brIndex],survivingAttempts[saIndex], arRatioValues[arIndex],  arRatioValues[arIndex],
+																		depredationProbabilitiesValues[dpIndex], mutationTypesValues[mtIndex], crossTypesValues[ctIndex], problem, n,
+																		crossProbabilities[crossIndex],mutationProbabilities[mutIndex]);
+																
+																//Si la diferencia con la respuesta correcta es menor que la mejor respuesta obtenida hasta ahora, almacenamos el resultado.
+																
+																average+=current;
+																desviacion+=Math.pow(current, 2);
+																
+																if(problem!=5){
+																	currentDiff=Math.abs(results.get(problem+n)-current);
+																}else{
+																	currentDiff=Math.abs(results.get(problem)-current);
+																}
+																
+																if(currentDiff<bestDiff){
+																	bestDiff=currentDiff;
+																	bestValue=current;
+																}
+															}
+															
+															//Calculamos y moostramos los resultados.
+															average=average/execNum;		//Calculamos la media.
+															varianza=(desviacion/execNum)-Math.pow(average,2);	//Calculamos la varianza.
+															desviacion= Math.sqrt(varianza);					//Calculamos la desviación
+															
+															System.out.println("***********************************************************");
+															System.out.println("***********************************************************");
+															System.out.println("***********************************************************");
+		
+															System.out.println("Parámetros utilizados: ");
+															
+															System.out.println("-N: "+nValues[nIndex]);
+															System.out.println("-M: "+mValues[mIndex]);
+															System.out.println("-Generaciones: "+ generationValues[genIndex]);
+															System.out.println("-Ratio de ocupación: "+ occupationRatioValues[orIndex]);
+															System.out.println("-de Ratio de brooging: "+broodingRatioValues[brIndex]);
+															System.out.println("-Intentos de supervivencia: "+survivingAttempts[saIndex]);
+															System.out.println("-Ratio de Reproducción asexual: "+arRatioValues[arIndex]);
+															System.out.println("-Ratio de 'Depredation' :"+depredationRatioValues[arIndex]);
+															System.out.println("-Probabilidad de 'Depredation': "+depredationProbabilitiesValues[dpIndex]);
+															System.out.println("-Tipo de cruce: "+mutationTypesValues[mtIndex]);
+															System.out.println("-Probabilidad de cruce: "+ crossProbabilities[crossIndex]);
+															System.out.println("-Tipo de mutación: "+crossTypesValues[ctIndex]);
+															System.out.println("-Probabilidad de mutación: "+mutationProbabilities[mutIndex]);
+															
+															System.out.println("Resultados ( "+ execNum+" ejecuciones): ");
+															System.out.println("-Mejor solución: "+bestValue);
+															System.out.println("-Media de soluciones: "+average);
+															System.out.println("-Desviación típica de soluciones: "+desviacion);
+															System.out.println("-Varianza en las soluciones: "+varianza);
+		
+		
 														}
 													}
-													
-													//Calculamos y moostramos los resultados.
-													average=average/execNum;		//Calculamos la media.
-													varianza=(desviacion/execNum)-Math.pow(average,2);	//Calculamos la varianza.
-													desviacion= Math.sqrt(varianza);					//Calculamos la desviación
-													
-													System.out.println("***********************************************************");
-													System.out.println("***********************************************************");
-													System.out.println("***********************************************************");
-
-													System.out.println("Parámetros utilizados: ");
-													
-													System.out.println("-N: "+nValues[nIndex]);
-													System.out.println("-M: "+mValues[mIndex]);
-													System.out.println("-Generaciones: "+ generationValues[genIndex]);
-													System.out.println("-Ratio de ocupación: "+ occupationRatioValues[orIndex]);
-													System.out.println("-de Ratio de brooging: "+broodingRatioValues[brIndex]);
-													System.out.println("-Intentos de supervivencia: "+survivingAttempts[saIndex]);
-													System.out.println("-Ratio de Reproducción asexual: "+arRatioValues[arIndex]);
-													System.out.println("-Ratio de 'Depredation' :"+depredationRatioValues[arIndex]);
-													System.out.println("-Probabilidad de 'Depredation': "+depredationProbabilitiesValues[dpIndex]);
-													System.out.println("-Tipo de cruce: "+mutationTypesValues[mtIndex]);
-													System.out.println("-Tipo de mutación: "+crossTypesValues[ctIndex]);
-													
-													System.out.println("Resultados ( "+ execNum+" ejecuciones): ");
-													System.out.println("-Mejor solución: "+bestValue);
-													System.out.println("-Media de soluciones: "+average);
-													System.out.println("-Desviación típica de soluciones: "+desviacion);
-													System.out.println("-Varianza en las soluciones: "+varianza);
-
-
 												}
 											}
 										}
