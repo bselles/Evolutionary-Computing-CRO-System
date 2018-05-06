@@ -69,14 +69,14 @@ public class PrincipalWindow extends JFrame implements Controller.Callback {
 
         JPanel nPanel = new JPanel();
         nPanel.add(new JLabel("Size (rows):"));
-        SpinnerNumberModel nSpinnerModel = new SpinnerNumberModel(10, 1, 100, 1);
+        SpinnerNumberModel nSpinnerModel = new SpinnerNumberModel(16, 1, 100, 1);
         JSpinner nSpinner = new JSpinner(nSpinnerModel);
         nSpinner.setEnabled(true);
         nPanel.add(nSpinner);
 
         JPanel mPanel = new JPanel();
         mPanel.add(new JLabel("Size (columns):"));
-        SpinnerNumberModel mSpinnerModel = new SpinnerNumberModel(10, 1, 100, 1);
+        SpinnerNumberModel mSpinnerModel = new SpinnerNumberModel(16, 1, 100, 1);
         JSpinner mSpinner = new JSpinner(mSpinnerModel);
         mSpinner.setEnabled(true);
         mPanel.add(mSpinner);
@@ -94,8 +94,13 @@ public class PrincipalWindow extends JFrame implements Controller.Callback {
         firstPanel.add(generation);
 
         
-        JPanel secondPanel = new JPanel();
-        secondPanel.setBorder(BorderFactory.createTitledBorder("Reef"));
+        //JPanel secondPanel = new JPanel();
+        //secondPanel.setBorder(BorderFactory.createTitledBorder("Reef"));
+        
+        JPanel secondPanelA = new JPanel();
+        secondPanelA.setBorder(BorderFactory.createTitledBorder("Ratios"));
+        JPanel secondPanelB = new JPanel();
+        secondPanelB.setBorder(BorderFactory.createTitledBorder("Probabilities"));
         
         JPanel CeldasOcupadas = new JPanel();
         CeldasOcupadas.add(new JLabel("Initial occupation ratio: "));
@@ -106,7 +111,7 @@ public class PrincipalWindow extends JFrame implements Controller.Callback {
         
         JPanel panelRatioExterna = new JPanel();
         panelRatioExterna.add( new JLabel("Extern reprod ratio"));
-        SpinnerNumberModel ratioExtInt = new SpinnerNumberModel(0.9, 0.0, 10, 0.05);
+        SpinnerNumberModel ratioExtInt = new SpinnerNumberModel(0.8, 0.0, 10, 0.05);
         JSpinner extIntSpinner = new JSpinner(ratioExtInt);
         extIntSpinner.setEnabled(true);
         panelRatioExterna.add(extIntSpinner);
@@ -127,7 +132,7 @@ public class PrincipalWindow extends JFrame implements Controller.Callback {
         
         JPanel panelAsexRepr = new JPanel();
         panelAsexRepr.add(new JLabel("Asexual repr ratio: "));
-        SpinnerNumberModel cloneRatio = new SpinnerNumberModel(0.05, 0, 10, 0.02);
+        SpinnerNumberModel cloneRatio = new SpinnerNumberModel(0.1, 0, 10, 0.02);
         JSpinner asexReprSpinner =  new JSpinner(cloneRatio);
         asexReprSpinner.setEnabled(true);
         panelAsexRepr.add(asexReprSpinner);
@@ -139,16 +144,31 @@ public class PrincipalWindow extends JFrame implements Controller.Callback {
         surviving.setEnabled(true);
         Intentos.add(surviving);
 
+        /*
         secondPanel.add(CeldasOcupadas);
         secondPanel.add(panelRatioExterna);
         secondPanel.add(ProbCruce);
         secondPanel.add(panelProbBrooding);
         secondPanel.add(panelAsexRepr);
         secondPanel.add(Intentos);
+        */
+        
+        secondPanelA.add(CeldasOcupadas);
+        secondPanelA.add(panelRatioExterna);
+        secondPanelA.add(panelAsexRepr);
+        secondPanelB.add(Intentos);
+        secondPanelB.add(ProbCruce);
+        secondPanelB.add(panelProbBrooding);
+        
+        
+        
+        
+        //secondPanel.add(secondPanelA);
+        //secondPanel.add(secondPanelB);
 
         
-        JPanel thridPanel = new JPanel();
-        thridPanel.setBorder(BorderFactory.createTitledBorder("Depredation"));
+        JPanel thirdPanel = new JPanel();
+        thirdPanel.setBorder(BorderFactory.createTitledBorder("Depredation"));
 
         JPanel depredationsPer = new JPanel();
         depredationsPer.add(new JLabel("Depredation Percentage: "));
@@ -164,33 +184,35 @@ public class PrincipalWindow extends JFrame implements Controller.Callback {
         Dprobability.setEnabled(true);
         depredationsProbability.add(Dprobability);
 
-        thridPanel.add(depredationsPer);
-        thridPanel.add(depredationsProbability);
+        thirdPanel.add(depredationsPer);
+        thirdPanel.add(depredationsProbability);
 
         JPanel fourthPanel = new JPanel();
         fourthPanel.setBorder(BorderFactory.createTitledBorder("Problem Panel"));
 
         JPanel numberOfGene = new JPanel();
         numberOfGene.add(new JLabel("Number Of Genes: "));
-        SpinnerNumberModel nModelSpinner = new SpinnerNumberModel(2, 1, 7, 1);
+        SpinnerNumberModel nModelSpinner = new SpinnerNumberModel(3, 1, 7, 1);
         JSpinner nProblem5Spinner = new JSpinner(nModelSpinner);
-        nProblem5Spinner.setEnabled(true);
+        nProblem5Spinner.setEnabled(false);
         numberOfGene.add(nProblem5Spinner);
 
         String[] problems = new String[] {"Problem 1", "Problem 2", "Problem 3", "Problem 4", "Problem 5"};
         JComboBox<String> problemComboBox = new JComboBox<>(problems);
-        problemComboBox.addItemListener(e -> numberOfGene.setEnabled("Problem 5".equals(e.getItem())));
+        problemComboBox.addItemListener(e -> nProblem5Spinner.setEnabled("Problem 5".equals(e.getItem())));
 
         JPanel mutationPanel = new JPanel();
         mutationPanel.setBorder(BorderFactory.createTitledBorder("Mutation Algorithm"));
         String[] mutations = new String[] {"Mutation 1", "Mutation 2"};
         JComboBox<String> mutationComboBox = new JComboBox<>(mutations);
+        mutationComboBox.setSelectedIndex(1);
         mutationPanel.add(mutationComboBox);
 
         JPanel reproductionPanel = new JPanel();
         reproductionPanel.setBorder(BorderFactory.createTitledBorder("Mutation Algorithm"));
         String[] reproductions = new String[] {"Reproduction 1", "Reproduction 2","Reproduction 3","Reproduction 4"};
         JComboBox<String> reproductionComboBox = new JComboBox<>(reproductions);
+        reproductionComboBox.setSelectedIndex(3);
         reproductionPanel.add(reproductionComboBox);
 
 
@@ -206,20 +228,20 @@ public class PrincipalWindow extends JFrame implements Controller.Callback {
         JPanel best = new JPanel();
         best.add(new JLabel("Best: "));
         bestText = new JTextField();
-        bestText.setText("                ");
+        bestText.setText("                        ");
         best.add(bestText);
         
 
         JPanel worst = new JPanel();
         worst.add(new JLabel("Worst: "));   
         worstText = new JTextField();
-        worstText.setText("                ");
+        worstText.setText("                        ");
         worst.add(worstText);
         
         JPanel average = new JPanel();
         average.add(new JLabel("Average: "));
         averageText = new JTextField();
-        averageText.setText("                ");
+        averageText.setText("                        ");
         average.add(averageText);
 
         fifthPanel.add(best);
@@ -228,8 +250,9 @@ public class PrincipalWindow extends JFrame implements Controller.Callback {
 
 
         panel.add(firstPanel);
-        panel.add(secondPanel);
-        panel.add(thridPanel);
+        panel.add(secondPanelA);
+        panel.add(secondPanelB);
+        panel.add(thirdPanel);
         panel.add(fourthPanel);
         panel.add(fifthPanel);
 
