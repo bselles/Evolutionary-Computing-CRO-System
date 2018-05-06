@@ -67,66 +67,85 @@ public class PrincipalWindow extends JFrame implements Controller.Callback {
         firstPanel.setBorder(BorderFactory.createTitledBorder("Matrix"));
 
         JPanel nPanel = new JPanel();
-        nPanel.add(new JLabel("Size (row):"));
+        nPanel.add(new JLabel("Size (rows):"));
         SpinnerNumberModel nSpinnerModel = new SpinnerNumberModel(10, 1, 100, 1);
         JSpinner nSpinner = new JSpinner(nSpinnerModel);
         nSpinner.setEnabled(true);
         nPanel.add(nSpinner);
 
         JPanel mPanel = new JPanel();
-        mPanel.add(new JLabel("Size (column):"));
+        mPanel.add(new JLabel("Size (columns):"));
         SpinnerNumberModel mSpinnerModel = new SpinnerNumberModel(10, 1, 100, 1);
         JSpinner mSpinner = new JSpinner(mSpinnerModel);
         mSpinner.setEnabled(true);
         mPanel.add(mSpinner);
 
         JPanel generation = new JPanel();
-        generation.add(new JLabel("Generation"));
+        generation.add(new JLabel("Generations"));
         SpinnerNumberModel generationSpinner = new SpinnerNumberModel(100, 1, 1000, 1);
         JSpinner geneSpinner = new JSpinner(generationSpinner);
-        mSpinner.setEnabled(true);
+        geneSpinner.setEnabled(true);
         generation.add(geneSpinner);
-
+        
+        
         firstPanel.add(nPanel);
         firstPanel.add(mPanel);
         firstPanel.add(generation);
 
+        
         JPanel secondPanel = new JPanel();
-        secondPanel.setBorder(BorderFactory.createTitledBorder("Riff"));
-
-        JPanel CeldasOcuppadas = new JPanel();
-        CeldasOcuppadas.add(new JLabel("Celdas iniciales ocupadas: "));
-        SpinnerNumberModel occupationRatio = new SpinnerNumberModel(0.32, 0, 1, 0.1);
+        secondPanel.setBorder(BorderFactory.createTitledBorder("Reef"));
+        
+        JPanel CeldasOcupadas = new JPanel();
+        CeldasOcupadas.add(new JLabel("Initial occupation ratio: "));
+        SpinnerNumberModel occupationRatio = new SpinnerNumberModel(0.4, 0, 1, 0.05);
         JSpinner occupationSpinner = new JSpinner(occupationRatio);
         occupationSpinner.setEnabled(true);
-        CeldasOcuppadas.add(occupationSpinner);
-
-        JPanel Intentos = new JPanel();
-        Intentos.add(new JLabel("Intentos de supervivencia: "));
-        SpinnerNumberModel survivingAttempts = new SpinnerNumberModel(3, 0, 100, 1);
-        JSpinner surviving = new JSpinner(survivingAttempts);
+        CeldasOcupadas.add(occupationSpinner);
+        
+        JPanel panelRatioExterna = new JPanel();
+        panelRatioExterna.add( new JLabel("Extern reprod ratio"));
+        SpinnerNumberModel ratioExtInt = new SpinnerNumberModel(0.9, 0.0, 1, 0.05);
+        JSpinner extIntSpinner = new JSpinner(ratioExtInt);
+        extIntSpinner.setEnabled(true);
+        panelRatioExterna.add(extIntSpinner);
+        
+        JPanel ProbCruce = new JPanel();
+        ProbCruce.add(new JLabel("Broadcast cross prob: "));
+        SpinnerNumberModel crossProb = new SpinnerNumberModel(0.5, 0, 1, 0.1);
+        JSpinner crossProbSpinner = new JSpinner(crossProb);
         mSpinner.setEnabled(true);
+        ProbCruce.add(crossProbSpinner);
+
+        JPanel panelProbBrooding = new JPanel();
+        panelProbBrooding.add(new JLabel("Brooding mutation prob: "));
+        SpinnerNumberModel broodProb = new SpinnerNumberModel(0.5, 0, 1, 0.1);
+        JSpinner broodProbSpinner = new JSpinner(broodProb);
+        broodProbSpinner.setEnabled(true);
+        panelProbBrooding.add(broodProbSpinner);
+        
+        JPanel panelAsexRepr = new JPanel();
+        panelAsexRepr.add(new JLabel("Asexual repr ratio: "));
+        SpinnerNumberModel cloneRatio = new SpinnerNumberModel(0.05, 0, 1, 0.01);
+        JSpinner asexReprSpinner =  new JSpinner(cloneRatio);
+        asexReprSpinner.setEnabled(true);
+        panelAsexRepr.add(asexReprSpinner);
+        
+        JPanel Intentos = new JPanel();
+        Intentos.add(new JLabel("Survival attempts: "));
+        SpinnerNumberModel survivingAttempts = new SpinnerNumberModel(3, 0, 20, 1);
+        JSpinner surviving = new JSpinner(survivingAttempts);
+        surviving.setEnabled(true);
         Intentos.add(surviving);
 
-        JPanel iRreproduction = new JPanel();
-        iRreproduction.add(new JLabel("Intentos de reproduccion: "));
-        SpinnerNumberModel iReproduction = new SpinnerNumberModel(0.5, 0, 1, 0.1);
-        JSpinner iReproductionSpinner = new JSpinner(iReproduction);
-        mSpinner.setEnabled(true);
-        iRreproduction.add(iReproductionSpinner);
-
-        JPanel panelBrooding = new JPanel();
-        panelBrooding.add(new JLabel("Ind. Reproduccion sexual externa: "));
-        SpinnerNumberModel modelBrooding = new SpinnerNumberModel(0.5, 0, 1, 0.1);
-        JSpinner spinnerBroding = new JSpinner(modelBrooding);
-        spinnerBroding.setEnabled(true);
-        panelBrooding.add(spinnerBroding);
-
-        secondPanel.add(CeldasOcuppadas);
+        secondPanel.add(CeldasOcupadas);
+        secondPanel.add(ProbCruce);
+        secondPanel.add(panelProbBrooding);
+        secondPanel.add(panelRatioExterna);
+        secondPanel.add(panelAsexRepr);
         secondPanel.add(Intentos);
-        secondPanel.add(iRreproduction);
-        secondPanel.add(panelBrooding);
 
+        
         JPanel thridPanel = new JPanel();
         thridPanel.setBorder(BorderFactory.createTitledBorder("Depredation"));
 
@@ -190,32 +209,56 @@ public class PrincipalWindow extends JFrame implements Controller.Callback {
 
         JButton okButton = new JButton("OK");
         okButton.addActionListener(a -> {
+        	
             int n = (int) nSpinner.getValue();
-            controller.setN(n);
+            controller.setRows(n);
             int m = (int) mSpinner.getValue();
-            controller.setM(m);
+            controller.setCols(m);
             cuadrado.setSize(n, m);
-            int genertions = (int) generationSpinner.getValue();
-            grafica.init(genertions);
-            controller.setGenerations(genertions);
+            
+            int generations = (int) generationSpinner.getValue();
+            grafica.init(generations);
+            controller.setGenerations(generations);
+            
             double ocRatio = (double) occupationRatio.getValue();
             controller.setOccupationRatio(ocRatio);
-            int survivingAt = (int) survivingAttempts.getValue();
-            controller.setSurvivingAttempts(survivingAt);
-            double arRatio = (double) iReproductionSpinner.getValue();
-            controller.setArRatio(arRatio);
-            double depredatioP = (double) percentage.getValue();
-            controller.setDepredationPercentage(depredatioP);
-            double depredatioPr = (double) Dprobability.getValue();
-            controller.setDepredationProbability(depredatioPr);
-            double brooding = (double) spinnerBroding.getValue();
-            controller.setBroodingRatio(brooding);
+            
+            double exterInter = (double) ratioExtInt.getValue() ; /////////////////////////////
+            controller.setBroadcastRatio(exterInter);
+            
+            double cruce = (double) crossProb.getValue();
+            controller.setCrossProbability(cruce);
+            
+            int reproductionType = reproductionComboBox.getSelectedIndex();
 
+            if (reproductionType < 0 || reproductionType > 4){
+                reproductionType = 0; //Reproduction Base
+            }
+            controller.setCrossType(reproductionType);
+            
+            double brooding = (double) broodProb.getValue();
+            controller.setBroodingProbability(brooding);
+            
             int mutationType = mutationComboBox.getSelectedIndex() + 1;
             if (mutationType > 2 || mutationType < 1){
                 mutationType = 1;
             }
             controller.setMutationType(mutationType);
+            
+            
+            int survivingAt = (int) survivingAttempts.getValue();
+            controller.setSurvivingAttempts(survivingAt);
+            
+            double clonacion = (double) asexReprSpinner.getValue(); //////////////
+            controller.setAsexReprRatio(clonacion);
+
+            double depredatioP = (double) percentage.getValue();
+            controller.setDepredationPercentage(depredatioP);
+            
+            double depredatioPr = (double) Dprobability.getValue();
+            controller.setDepredationProbability(depredatioPr);
+            
+            
             int problemType = problemComboBox.getSelectedIndex() + 1;
             int values = 2;
             if (problemType == 5 ){
@@ -224,16 +267,12 @@ public class PrincipalWindow extends JFrame implements Controller.Callback {
             else if (problemType > 5 || problemType < 1){
                 problemType = 0;//Problema Base
             }
+            controller.setnGenes(values);
             controller.setProblem(problemType);
-            controller.setn(values);
-            int reproductionType = reproductionComboBox.getSelectedIndex();
-
-            if (reproductionType < 0 || reproductionType > 4){
-                reproductionType = 0; //Reproduction Base
-            }
-            controller.setCrossType(reproductionType);
+            
             controller.realizarCalculos();
         });
+        
         panel.add(okButton);
         return panel;
     }
