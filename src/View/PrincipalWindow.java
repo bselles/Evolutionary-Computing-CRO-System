@@ -112,21 +112,21 @@ public class PrincipalWindow extends JFrame implements Controller.Callback {
         
         JPanel ProbCruce = new JPanel();
         ProbCruce.add(new JLabel("Broadcast cross prob: "));
-        SpinnerNumberModel crossProb = new SpinnerNumberModel(0.5, 0, 1, 0.1);
+        SpinnerNumberModel crossProb = new SpinnerNumberModel(0.5, 0, 1, 0.05);
         JSpinner crossProbSpinner = new JSpinner(crossProb);
         mSpinner.setEnabled(true);
         ProbCruce.add(crossProbSpinner);
 
         JPanel panelProbBrooding = new JPanel();
         panelProbBrooding.add(new JLabel("Brooding mutation prob: "));
-        SpinnerNumberModel broodProb = new SpinnerNumberModel(0.5, 0, 1, 0.1);
+        SpinnerNumberModel broodProb = new SpinnerNumberModel(0.5, 0, 1, 0.05);
         JSpinner broodProbSpinner = new JSpinner(broodProb);
         broodProbSpinner.setEnabled(true);
         panelProbBrooding.add(broodProbSpinner);
         
         JPanel panelAsexRepr = new JPanel();
         panelAsexRepr.add(new JLabel("Asexual repr ratio: "));
-        SpinnerNumberModel cloneRatio = new SpinnerNumberModel(0.05, 0, 1, 0.01);
+        SpinnerNumberModel cloneRatio = new SpinnerNumberModel(0.05, 0, 1, 0.02);
         JSpinner asexReprSpinner =  new JSpinner(cloneRatio);
         asexReprSpinner.setEnabled(true);
         panelAsexRepr.add(asexReprSpinner);
@@ -139,9 +139,9 @@ public class PrincipalWindow extends JFrame implements Controller.Callback {
         Intentos.add(surviving);
 
         secondPanel.add(CeldasOcupadas);
+        secondPanel.add(panelRatioExterna);
         secondPanel.add(ProbCruce);
         secondPanel.add(panelProbBrooding);
-        secondPanel.add(panelRatioExterna);
         secondPanel.add(panelAsexRepr);
         secondPanel.add(Intentos);
 
@@ -151,14 +151,14 @@ public class PrincipalWindow extends JFrame implements Controller.Callback {
 
         JPanel depredationsPer = new JPanel();
         depredationsPer.add(new JLabel("Depredation Percentage: "));
-        SpinnerNumberModel dePer = new SpinnerNumberModel(0.4, 0, 1, 0.1);
+        SpinnerNumberModel dePer = new SpinnerNumberModel(0.4, 0, 1, 0.05);
         JSpinner percentage = new JSpinner(dePer);
         percentage.setEnabled(true);
         depredationsPer.add(percentage);
 
         JPanel depredationsProbability = new JPanel();
         depredationsProbability.add(new JLabel("Depredation Probability: "));
-        SpinnerNumberModel probability = new SpinnerNumberModel(0.5, 0, 1, 0.1);
+        SpinnerNumberModel probability = new SpinnerNumberModel(0.5, 0, 1, 0.05);
         JSpinner Dprobability = new JSpinner(probability);
         Dprobability.setEnabled(true);
         depredationsProbability.add(Dprobability);
@@ -173,7 +173,7 @@ public class PrincipalWindow extends JFrame implements Controller.Callback {
         numberOfGene.add(new JLabel("Number Of Genes: "));
         SpinnerNumberModel nModelSpinner = new SpinnerNumberModel(2, 1, 7, 1);
         JSpinner nProblem5Spinner = new JSpinner(nModelSpinner);
-        nProblem5Spinner.setEnabled(false);
+        nProblem5Spinner.setEnabled(true);
         numberOfGene.add(nProblem5Spinner);
 
         String[] problems = new String[] {"Problem 1", "Problem 2", "Problem 3", "Problem 4", "Problem 5"};
@@ -191,8 +191,6 @@ public class PrincipalWindow extends JFrame implements Controller.Callback {
         String[] reproductions = new String[] {"Reproduction 1", "Reproduction 2","Reproduction 3","Reproduction 4"};
         JComboBox<String> reproductionComboBox = new JComboBox<>(reproductions);
         reproductionPanel.add(reproductionComboBox);
-
-
 
 
 
@@ -223,16 +221,16 @@ public class PrincipalWindow extends JFrame implements Controller.Callback {
             double ocRatio = (double) occupationRatio.getValue();
             controller.setOccupationRatio(ocRatio);
             
-            double exterInter = (double) ratioExtInt.getValue() ; /////////////////////////////
+            double exterInter = (double) ratioExtInt.getValue() ; 
             controller.setBroadcastRatio(exterInter);
             
             double cruce = (double) crossProb.getValue();
             controller.setCrossProbability(cruce);
             
-            int reproductionType = reproductionComboBox.getSelectedIndex();
+            int reproductionType = reproductionComboBox.getSelectedIndex() + 1;
 
-            if (reproductionType < 0 || reproductionType > 4){
-                reproductionType = 0; //Reproduction Base
+            if (reproductionType < 1 || reproductionType > 4){
+                reproductionType = 1; //Reproduction Base
             }
             controller.setCrossType(reproductionType);
             

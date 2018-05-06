@@ -146,10 +146,11 @@ public class Controller {
 		ArrayList<Chromosome> water;	//Simular� el agua. Se almacenar�n los resultados de los cruces, por ejemplo.
 		
 		//Generamos uno aleatorio.
-
+		Chromosome winner = null;
+		
 		//Bucle principal.
 		for(int i=0; i<generations;i++){
-			Chromosome winner = cro.generateChromosome();
+			winner = cro.generateChromosome();
 			Chromosome loser = cro.generateChromosome();
 			//cro.printPopulation(N,M,population);
 			//System.out.println("---------------------------------");
@@ -195,7 +196,8 @@ public class Controller {
 			}
 			callback.onGenerationOver(i, results, population);
 		}
-		//System.out.print(winner.toString());
+		System.out.println("El mejor individuo ha sido: ");
+		System.out.print(winner.toString());
 	}
 
 }

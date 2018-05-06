@@ -49,15 +49,17 @@ public class RectBoardGameView extends JComponent {
 		// Use this to make better looking circles
 		Graphics2D g2d = (Graphics2D) g;
 		g2d.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
-
+		
+		
 		for (int row = 0; row < rows; row += 1) {
 			for (int col = 0; col < cols; col += 1) {
 				int index = row * cols + col;
 				Chromosome value = population.get(index);
-				System.out.println("Index: " + index + " " + value);
+				//System.out.println("Index: " + index + " " + value);
 				drawCell(row, col, value, g);
 			}
 		}
+		
 	}
 
 	private void drawCell(int row, int col, Chromosome value, Graphics g) {

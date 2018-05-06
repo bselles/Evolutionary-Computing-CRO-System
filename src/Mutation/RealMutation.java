@@ -50,7 +50,7 @@ public class RealMutation {
 			break;
 			
 		default: //opcion no reconocida -> se queda como esta
-			System.out.print("Mutación no válida.");
+			System.err.print("Mutación no válida.");
 		}
 		return result;
 	}

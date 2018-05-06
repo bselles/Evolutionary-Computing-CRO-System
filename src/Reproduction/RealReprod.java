@@ -106,6 +106,7 @@ public class RealReprod {
 			break;
 				
 		default:
+			System.err.print("Reproduccion no válida.");
 			break;
 		}
 		
